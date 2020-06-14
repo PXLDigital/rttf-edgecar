@@ -1,0 +1,5 @@
+azure-iothub-device-client~=1.4.3
+picamera==1.13
+adafruit-pca9685
+paho-mqtt
+azure==4.0.0

@@ -1,0 +1,16 @@
+<launch>
+	<arg name="veh" default="edgecar"/>
+	<arg name="config" default="baseline"/>
+	<arg name="param_file_name" default="megaman" doc="Specify a param file. ex:megaman"/>
+
+	<group ns="$(arg veh)">
+		<node  name="camera_node" pkg="camera_driver" type="camera_node_sequence.py" output="screen" clear_params="true" required="true">
+			<param name="veh" value="$(arg veh)" />
+			<rosparam command="load" file="$(find cardrivers)/config/$(arg config)/camera_driver/camera_node/$(arg param_file_name).yaml"/>
+		</node>
+	</group>
+
+	<!-- Publications -->
+	<!-- "~image/compressed": sensor_msgs/CompressedImage. Image from the camera in jpeg format-->
+
+</launch>

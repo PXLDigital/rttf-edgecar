@@ -1,0 +1,63 @@
+FROM homesensor.azurecr.io/edgecar-messages:364
+
+# RUN [ "cross-build-start" ]
+
+RUN apt update && apt install -y python-pip python-numpy python-scipy wget
+
+COPY requirements.txt /requirements.txt
+ENV READTHEDOCS True
+RUN pip install --upgrade pip
+RUN pip install -r /requirements.txt
+RUN apt-get install libhdf5-dev unzip -y
+RUN apt-get install -y python-h5py
+RUN pip install -v  numpy==1.16.6
+# RUN pip install h5py==2.10.0
+
+RUN mkdir /home/aidrivingmodule
+
+## install tensorflow in container
+COPY tensorflow-1.14.0-cp27-none-linux_armv7l.whl /home/aidrivingmodule
+RUN pip --no-cache-dir install /home/aidrivingmodule/tensorflow-1.14.0-cp27-none-linux_armv7l.whl
+
+##copy opencvstuff and setup opencv to build
+COPY opencv.zip /home/aidrivingmodule
+COPY opencv_contrib.zip /home/aidrivingmodule
+
+WORKDIR /home/aidrivingmodule
+
+
+RUN unzip opencv.zip && \
+  unzip opencv_contrib.zip
+
+RUN apt install libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev -y
+RUN apt install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev -y
+RUN apt install libatlas-base-dev gfortran python-numpy python-scipy -y
+
+
+RUN cd opencv-3.4.1 && mkdir build && cd build && \
+  cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local \
+        -D INSTALL_PYTHON_EXAMPLES=ON \
+        -D OPENCV_EXTRA_MODULES_PATH=/home/aidrivingmodule/opencv_contrib-3.4.1/modules \
+        -D ENABLE_PRECOMPILED_HEADERS=OFF -D BUILD_EXAMPLES=OFF .. && \
+  make -j4
+
+ENV ROS_LANG_DISABLE=gennodejs:geneus:genlisp
+
+RUN apt-get install ros-kinetic-cv-bridge -y
+
+COPY . /home/aidrivingmodule
+
+RUN /bin/bash -c "cd /home/aidrivingmodule/ && source /opt/ros/kinetic/setup.bash && source /home/edgecar_msgs/catkin_ws/devel/setup.bash --extend && catkin_make -j -C catkin_ws/"
+RUN echo "source /home/aidrivingmodule/docker_setup.sh" >> ~/.bashrc
+
+RUN bash -c "source /home/aidrivingmodule/docker_setup.sh"
+
+# ENV ROS_IPV6=on
+ENV ROS_MASTER_URI=http://master:11311
+
+
+# RUN [ "cross-build-end" ]
+
+WORKDIR /home/aidrivingmodule
+
+CMD [ "./run_ai_module.sh" ]
