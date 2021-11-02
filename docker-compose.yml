@@ -7,7 +7,6 @@ services:
         - "11311:11311"
     volumes:
         - "/data:/data"
-    network_mode: "host"
     privileged: true
     environment: 
         - "DISABLE_CONTRACTS=1"
@@ -17,7 +16,6 @@ services:
     
   aidrivingmodule:
     image: enicky/aidrivingmodule:latest-arm32v7
-    network_mode: "host"
     volumes:
         - "/data:/data"
     environment: 
