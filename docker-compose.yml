@@ -3,8 +3,7 @@ version: '3'
 services:
   cardrivers:
     image: enicky/cardrivers:latest-arm32v7
-    ports:
-        - "11311:11311"
+    network_mode: "host"
     volumes:
         - "/data:/data"
     privileged: true
@@ -16,6 +15,7 @@ services:
     
   aidrivingmodule:
     image: enicky/aidrivingmodule:latest-arm32v7
+    network_mode: "host"
     volumes:
         - "/data:/data"
     environment: 
