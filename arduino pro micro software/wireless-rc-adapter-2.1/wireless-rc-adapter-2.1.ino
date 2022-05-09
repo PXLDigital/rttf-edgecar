@@ -19,7 +19,7 @@
 #define CHANNELS 3  // Override the default 6 channels (PPM max: 8, PWM max: 6)
 
 // >>> Serial-Debug options for troubleshooting <<<
-#define SERIAL_DEBUG  // Enable Serial Debug by uncommenting this line
+//#define SERIAL_DEBUG  // Enable Serial Debug by uncommenting this line
 //#define SERIAL_SPD 115200  // Set debug bitrate between 9600-115200 bps (default: 9600)
 
 // >>> Calibration settings <<<
