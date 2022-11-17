@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <script src="jquery-3.5.1.min.js"></script>
+        <script src="config.js"></script>
+        <script src="roslib.js"></script>
+        <link rel="stylesheet" href="style.css" />
+        <title>RTTF Car - Commander</title>
+    </head>
+    <body>
+
+        <header>
+            <h1>PiComm</h1>
+            <h3>RPi IP</h3>
+            <input type="text" id="ip" />
+        </header>
+
+        <main id="command-buttons"></main>
+        
+        <aside class='result'></aside>
+
+        <script>
+            $("#ip").val(CONFIG.default_ip);
+            let ip = $("#ip").val();
+            var ros = new ROSLIB.Ros({
+                url : `${ip}:9000`
+            });
+            var joyTopic = new ROSLIB.Topic({
+                ros : ros,
+                name : '/master/joy',
+                messageType : 'sensor_msgs/Joy'
+            });
+            var joy = new ROSLIB.Message({
+                axes : [0, 0],
+                buttons : [0]
+            });
+
+            for(let command of CONFIG.commands) {
+                /* if(!command.disabled && !command.roslib) {
+                    console.log(command.title);
+                    let command_button = $("<button>");
+                    command_button.text(command.title);
+                    command_button.click(function() {
+                        let port = 5000;
+                        let data = {"command": command.command};
+                        $.post( `http://${ip}:${port}/execute`, data, function( result ) {
+                            $( ".result" ).html( result );
+                        });
+                    });
+                    $("#command-buttons").append(command_button);
+                } */
+                if (command.roslib) {
+                    let command_button = $("<button>");
+                    command_button.text(command.title);
+                    command_button.click(function() {
+                        if (command.axes) {
+                            joy.axes = command.axes;
+                        }
+                        if (commans.buttons) {
+                            joy.buttons = command.buttons
+                        }
+                    });
+                }
+            }
+
+            /*function onButtonClick() {
+                let ip = $("#ip").val();
+                let port = 5000;
+                let data = {"command": "rostopic list"};
+                $.post( `http://${ip}:${port}/execute`, data, function( result ) {
+                    $( ".result" ).html( result );
+                });
+            }*/
+
+            timer = setInterval( function () {
+                joyTopic.publish(joy);                
+            }, 100)
+        </script>
+
+    </body>
+</html>

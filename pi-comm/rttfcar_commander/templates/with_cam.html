@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <script src="{{url_for('static', filename='jquery-3.5.1.min.js')}}"></script>
+        <script src="{{url_for('static', filename='config.js')}}"></script>
+        <script src="{{url_for('static', filename='roslib.js')}}"></script>
+        <script src="{{url_for('static', filename='JoystickController.js')}}"></script>
+        <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
+        <title>RTTF Car - Commander</title>
+    </head>
+    <body>
+
+        <header>
+            <h1>PiComm &#x1F4F1;&#x1F4AC;</h1>
+            <!--
+            <h3>RPi IP</h3>
+            <input type="text" id="ip" />
+            -->
+        </header>
+
+        <section>
+
+            <aside class="camera">
+                <img id="bg">
+            </aside>
+
+            <div class="power-switch">
+                <input type="checkbox" name="startAiCheckbox" />
+                <div class="button">
+                  <svg class="power-off">
+                    <use xlink:href="#line" class="line" />
+                    <use xlink:href="#circle" class="circle" />
+                  </svg>
+                  <svg class="power-on">
+                    <use xlink:href="#line" class="line" />
+                    <use xlink:href="#circle" class="circle" />
+                  </svg>
+                </div>
+            </div>
+              
+            <!-- SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" id="line">
+                  <line x1="75" y1="34" x2="75" y2="58"/>
+                </symbol>
+                <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150" id="circle">
+                  <circle cx="75" cy="80" r="35"/>
+                </symbol>
+            </svg>
+
+            <div class="joystick">
+                <img class="joystick-base" src="/static/img/joystick-base.png"/>
+                <div id="stick" class="stick">
+                <img class="joystick-blue" src="/static/img/joystick-blue.png"/>    
+                </div>
+            </div>
+
+            <!--<div id="status">
+                Joystick
+            </div>-->
+
+            <div class="switch-holder">
+                <div class="switch-label">
+                    <span>Receive Camera Video</span>
+                </div>
+                <div class="switch-toggle">
+                    <input type="checkbox" name="cameraToggle" id="camera" checked>
+                    <label for="camera"></label>
+                </div>
+            </div>
+
+            <main id="command-buttons"></main>
+
+            <input id="speed-slider" type="range" min="0" max="100" step="1"/>
+            
+            <h2>RC-car Response</h2>
+            <aside class='result'>
+                Press a button to get started &#x1F680;
+            </aside>
+        </section>
+        
+
+        <script src="{{url_for('static', filename='setup.js')}}"></script>
+        <script src="{{url_for('static', filename='controls.js')}}"></script>
+        <script src="{{url_for('static', filename='camview.js')}}"></script>
+    </body>
+</html>

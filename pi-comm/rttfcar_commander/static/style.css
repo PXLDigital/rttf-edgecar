@@ -1,0 +1,336 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    color: white;
+
+    -webkit-touch-callout:none;
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+
+body {
+    background: linear-gradient(145deg, #26292d, #2d3036);
+}
+
+
+header {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+section {
+    max-width: 800px;
+    margin: auto;
+}
+
+aside, main {
+    width: 100%;
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 4rem 0;
+}
+
+h2 {
+    text-align: center;
+    margin: 6rem 0 2rem;
+}
+
+aside.camera img {
+    width: 800px;
+    height: auto;
+    border-radius: 25px;
+
+    background: #2A2D32;
+    box-shadow: inset 8px 8px 16px #222428,
+                inset -8px -8px 16px #32363c;
+}
+
+aside.result {
+    border-radius: 25px;
+    background: #2A2D32;
+    box-shadow: inset 8px 8px 16px #222428,
+                inset -8px -8px 16px #32363c;
+    
+    text-align: center;
+    min-height: 20rem;
+    font-size: 1.4em;
+    font-weight: 500;
+
+    margin: 0 0 5rem 0;
+    padding: 1rem;
+    
+    line-height: 1.5;
+    word-wrap: break-word;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+button {
+    border: none;
+    width: 45%;
+    padding: 3rem;
+    border-radius: 25px;
+    font-size: 2.4em;
+
+    border-radius: 25px;
+    background: linear-gradient(145deg, #26292d, #2d3036);
+    box-shadow:  8px 8px 16px #222428,
+             -8px -8px 16px #32363c;
+    transition: .5s;
+}
+
+button:hover, button:active {
+    background: #2A2D32;
+    box-shadow: inset 8px 8px 16px #222428,
+                inset -8px -8px 16px #32363c;
+    transition: .5s;
+    cursor: pointer;
+}
+
+div.joystick img.joystick-base, div.stick img.joystick-blue {
+    width: 200%;
+}
+
+div.joystick {
+    max-width: max-content;
+    margin: 4rem auto;
+    transform: translateX(-50%);
+    position: relative;
+}
+
+div.stick {
+    position: absolute; 
+    left:64px; 
+    top:64px;
+}
+
+input[type="range"]#speed-slider {
+    width: 100%;
+}
+
+/* AI TOGGLE POWER BUTTON */
+
+.power-switch {
+    --color-invert: #fff;
+    --width: 150px;
+    --height: 150px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--width);
+    height: var(--height);
+    margin: 5rem auto;
+
+    
+}
+.power-switch .button {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.power-switch .button:after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: radial-gradient(circle closest-side, var(--color-invert), transparent);
+    filter: blur(20px);
+    opacity: 0;
+    transition: opacity .75s ease, transform .75s ease;
+    transform: perspective(1px) translateZ(0);
+    backface-visibility: hidden;
+}
+.power-switch .button .power-on, .power-switch .button .power-off {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    fill: none;
+    stroke: var(--color-invert);
+    stroke-width: 8px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.power-switch .button .power-on .line, .power-switch .button .power-off .line {
+    opacity: 0.2;
+}
+.power-switch .button .power-on .circle, .power-switch .button .power-off .circle {
+    opacity: 0.2;
+    transform: rotate(-58deg);
+    transform-origin: center 80px;
+    stroke-dasharray: 220;
+    stroke-dashoffset: 40;
+}
+.power-switch .button .power-on {
+    filter: drop-shadow(0px 0px 6px rgba(255, 255, 255, .8));
+}
+.power-switch .button .power-on .line {
+    opacity: 0;
+    transition: opacity 0.3s ease .5s;
+}
+.power-switch .button .power-on .circle {
+    opacity: 1;
+    stroke-dashoffset: 220;
+    transition: transform 0s ease, stroke-dashoffset .5s ease 0s;
+}
+.power-switch input {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+    cursor: pointer;
+    opacity: 0;
+}
+.power-switch input:checked + .button:after {
+    opacity: 0.15;
+    transform: scale(2) perspective(1px) translateZ(0);
+    backface-visibility: hidden;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.power-switch input:checked + .button .power-on, .power-switch input:checked + .button .power-off {
+    animation: click-animation 0.3s ease forwards;
+    transform: scale(1);
+}
+.power-switch input:checked + .button .power-on .line, .power-switch input:checked + .button .power-off .line {
+    animation: line-animation 0.8s ease-in forwards;
+}
+.power-switch input:checked + .button .power-on .circle, .power-switch input:checked + .button .power-off .circle {
+    transform: rotate(302deg);
+}
+.power-switch input:checked + .button .power-on .line {
+    opacity: 1;
+    transition: opacity 0.05s ease-in 0.55s;
+}
+.power-switch input:checked + .button .power-on .circle {
+    transform: rotate(302deg);
+    stroke-dashoffset: 40;
+    transition: transform 0.4s ease 0.2s, stroke-dashoffset 0.4s ease 0.2s;
+}
+
+@keyframes line-animation {
+    0% {
+        transform: translateY(0);
+   }
+    10% {
+        transform: translateY(10px);
+   }
+    40% {
+        transform: translateY(-25px);
+   }
+    60% {
+        transform: translateY(-25px);
+   }
+    85% {
+        transform: translateY(10px);
+   }
+    100% {
+        transform: translateY(0px);
+   }
+}
+
+@keyframes click-animation {
+    0% {
+        transform: scale(1);
+   }
+    50% {
+        transform: scale(0.9);
+   }
+    100% {
+        transform: scale(1);
+   }
+}
+
+
+/* CAMERA TOGGLE */
+
+.switch-holder {
+    display: flex;
+    padding: 3rem;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    background: linear-gradient(145deg, #26292d, #2d3036);
+    box-shadow:  8px 8px 16px #222428,
+             -8px -8px 16px #32363c;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.switch-label {
+    width: 100%;
+    font-size: 2rem;
+}
+
+.switch-label i {
+    margin-right: 5px;
+}
+
+.switch-toggle {
+    height: 40px;
+}
+
+.switch-toggle input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    z-index: -2;
+}
+
+.switch-toggle input[type="checkbox"] + label {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    margin: 0;
+    cursor: pointer;
+    background: #2A2D32;
+    box-shadow: inset 8px 8px 16px #222428,
+                inset -8px -8px 16px #32363c;
+    filter: none;
+
+    
+}
+
+.switch-toggle input[type="checkbox"] + label::before {
+    position: absolute;
+    content: 'OFF';
+    font-size: 13px;
+    text-align: center;
+    line-height: 25px;
+    top: 8px;
+    left: 8px;
+    width: 45px;
+    height: 25px;
+    border-radius: 20px;
+    background: #32363c;
+    box-shadow:  8px 8px 16px #222428,
+             -8px -8px 16px #32363c;
+    transition: .3s ease-in-out;
+}
+
+.switch-toggle input[type="checkbox"]:checked + label::before {
+    left: 50%;
+    content: 'ON';
+    color: #26292d;
+    background-color: white;
+    box-shadow:  0 0 4px #222428;
+    transition: .3s ease-in-out;
+}
+
+.switch-toggle input[type="checkbox"]:checked + label {
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: none;
+    filter: drop-shadow(0px 0px 6px rgba(255, 255, 255, .8));
+    transition: .3s ease-in-out;
+}
