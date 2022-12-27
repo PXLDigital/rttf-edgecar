@@ -1,2 +1,2 @@
-setuptools==41.0.0
+setuptools==65.5.1
 azure-iothub-device-client~=1.4.3
