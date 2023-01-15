@@ -1,0 +1,15 @@
+<launch>
+    <arg name="veh" default="edgecar" />
+    <arg name="pkg_name" value="storage" />
+    <arg name="node_name" value="storage_node" />
+    <arg name="type_name" value="storage.py" />
+
+    <arg name="config" default="baseline" doc="specify a config" />
+    <arg name="param_file_name" default="megaman" />
+    
+
+    <node ns="$(arg veh)" pkg="$(arg pkg_name)" type="$(arg type_name)" name="$(arg node_name)" output="screen" required="true" >
+        <param name="veh" value="$(arg veh)" />
+        <rosparam command="load" file="$(find cardrivers)/config/$(arg config)/$(arg pkg_name)/$(arg node_name)/$(arg param_file_name).yaml" />
+    </node>
+</launch>

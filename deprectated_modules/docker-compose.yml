@@ -1,0 +1,43 @@
+version: '3'
+    
+services:
+  cardrivers:
+    image: enicky/cardrivers:latest-arm32v7
+    network_mode: "host"
+    volumes:
+        - "/data:/data"
+    privileged: true
+    environment: 
+        - "DISABLE_CONTRACTS=1"
+        - "ROS_MASTER_URI=http://localhost:11311"
+        - "HOSTNAME=master"
+    restart: "always"
+    
+  aidrivingmodule:
+    image: enicky/aidrivingmodule:latest-arm32v7
+    network_mode: "host"
+    volumes:
+        - "/data:/data"
+    environment: 
+        - "DISABLE_CONTRACTS=1"
+        - "ROS_MASTER_URI=http://localhost:11311"
+        - "HOSTNAME=master"
+    depends_on: 
+        - cardrivers
+    restart: "always"
+
+  pi-comm:
+    image: pi-comm
+    network_mode: "host"
+    volumes:
+        - "./pi-comm/rttfcar_commander/:/home/user/rttfcar_commander/"
+    privileged: true
+    environment:
+        - "DISABLE_CONTRACTS=1"
+        - "ROS_MASTER_URI=http://localhost:11311"
+        - "HOSTNAME=master"
+    depends_on:
+        - cardrivers
+        - aidrivingmodule
+    restart: "always"
+#   command: "cd /home/user/pi-comm/ && /bin/bash start_picomm.sh"

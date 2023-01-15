@@ -1,0 +1,14 @@
+<launch>
+    <arg name="veh" default="edgecar" />
+    <arg name="config" default="baseline" doc="specify a config" />
+    <arg name="param_file_name" default="megaman" />
+
+    <arg name="pkg_name" value="joy_mapper" />
+    <arg name="node_name" value="joy_mapper_node" />
+
+
+    <node ns="$(arg veh)"  pkg="$(arg pkg_name)" type="$(arg node_name).py" name="$(arg node_name)" output="screen" clear_params="true" required="true" >
+        <param name="veh" value="$(arg veh)" />
+      <rosparam command="load" file="$(find cardrivers)/config/$(arg config)/$(arg pkg_name)/$(arg node_name)/$(arg param_file_name).yaml" />
+    </node>
+</launch>

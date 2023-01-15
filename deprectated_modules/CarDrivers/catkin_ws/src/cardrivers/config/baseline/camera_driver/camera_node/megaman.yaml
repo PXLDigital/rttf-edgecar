@@ -1,0 +1,6 @@
+#parameters for pi_camera/camera_node
+framerate: 30
+res_w: 320
+res_h: 240
+decompress: false
+publish_info: false

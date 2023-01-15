@@ -1,0 +1,4 @@
+#default parameters for dagu_car/wheels_driver_node
+account_name: "none"
+account_key: "somekey"
+container_name: "cardrivers"
