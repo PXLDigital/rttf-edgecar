@@ -1,0 +1,10 @@
+<launch>
+    <arg name="veh" doc="Name of vehicle" default="edgecar" />
+    <arg name="pkg_name" value="driving_module" />
+    <arg name="node_name" value="driving_module_node" />
+
+
+    <node ns="$(arg veh)"  pkg="$(arg pkg_name)" type="$(arg node_name).py" name="$(arg node_name)" output="screen" clear_params="true" required="true" >
+        <param name="veh" value="$(arg veh)" />
+    </node>
+</launch>
