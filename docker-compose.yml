@@ -5,7 +5,7 @@ services:
         image: cardrivers:latest
         network_mode: "host"
         volumes:
-            - "./Data:/home/cardrivers/Data"
+            - "./data:/data"
             - "./scripts:/home/cardrivers/scripts"
             - "./cardrivers/catkin_ws:/home/cardrivers/catkin_ws"
         privileged: true
@@ -20,9 +20,8 @@ services:
         image: enicky/aidrivingmodule:latest-arm32v7
         network_mode: "host"
         volumes:
-            - "./Data:/home/aidrivingmodule/Data"
-            - "../scripts:/scripts"
-            - "./ai-driver:/ai-driver"
+            - "./data:/data"
+            - "./scripts:/home/aidrivingmodule/scripts"
             - "./ai-driver/catkin_ws:/home/aidrivingmodule/catkin_ws"
             - "./scripts/run_ai_module.sh:/home/aidrivingmodule/run_ai_module.sh"
         environment: 
