@@ -25,7 +25,7 @@ class JoystickMapper():
     def joy_callback(self, data):
         self.joy_message = data
         self.process_steering(data)
-        #self.process_buttons(data)
+        self.process_buttons(data)
         rospy.logdebug('[JoystickMapper] Finished processing joystick')
 
     def process_steering(self, joy_msg):
